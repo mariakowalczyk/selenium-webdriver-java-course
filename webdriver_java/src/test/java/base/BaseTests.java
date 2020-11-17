@@ -1,31 +1,25 @@
 package base;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-
-import java.util.List;
+import org.testng.annotations.*;
+import pages.HomePage;
 
 public class BaseTests {
 
     private WebDriver driver;
+    protected HomePage homePage;
 
+    @BeforeClass
     public void setUp(){
         System.setProperty("webdriver.chrome.driver", "resources/chromedriver.exe");
         driver = new ChromeDriver();
         driver.get("https://the-internet.herokuapp.com/");
 
-        driver.findElement(By.linkText("Shifting Content")).click();
-        driver.findElement(By.linkText("Example 1: Menu Element")).click();
-        List<WebElement> menuItems = driver.findElements(By.tagName("li"));
-        System.out.println(menuItems.size());
-
-        driver.quit();
+        homePage = new HomePage(driver);
     }
-
-    public static void main(String[] args) {
-        BaseTests test = new BaseTests();
-        test.setUp();
+    @AfterClass
+    public void tearDown(){
+        driver.quit();
     }
 }
